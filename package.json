@@ -1,0 +1,203 @@
+{
+  "name": "highlight-bookmark",
+  "displayName": "highlight-bookmark",
+  "publisher": "denjay",
+  "description": "VS Code extension,Bookmark with highlight lines",
+  "icon": "images/logo.png",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.86.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "bookmark",
+    "bookmarks",
+    "mark",
+    "jump",
+    "navigation",
+    "multi-cursor"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/denjay/highlight-bookmark.git"
+  },
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "colors": [
+      {
+        "id": "bookmarks.activeFile",
+        "description": "Color for the current active file in bookmarks view",
+        "defaults": {
+          "dark": "#F44336",
+          "light": "#007ACC",
+          "highContrast": "#F44336"
+        }
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "bookmarks-view",
+          "title": "highlight-bookmark",
+          "icon": "images/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "bookmarks-view": [
+        {
+          "id": "bookmarks-list",
+          "name": "Bookmark List"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "bookmarks.toggleBookmarks",
+        "title": "highlight-bookmark: Toogle Bookmarks"
+      },
+      {
+        "command": "bookmarks.clearAllBookmarks",
+        "title": "highlight-bookmark: Clear All Bookmarks",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "bookmarks.clearCurrentFileBookmarks",
+        "title": "highlight-bookmark: Clear Current File Bookmarks"
+      },
+      {
+        "command": "bookmarks.navigateToNextBookmark",
+        "title": "highlight-bookmark: Move cursor to the next bookmark"
+      },
+      {
+        "command": "bookmarks.navigateToPrevBookmark",
+        "title": "highlight-bookmark: Move cursor to the previous bookmark"
+      },
+      {
+        "command": "bookmarks.deleteBookmark",
+        "title": "Delete"
+      },
+      {
+        "command": "bookmarks.addNote",
+        "title": "Add note"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "lineHighlightBookmark.toogleBookmarks",
+        "key": "alt+b",
+        "mac": "option+b",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "bookmarks.clearCurrentFileBookmarks",
+        "key": "ctrl+shift+b",
+        "mac": "cmd+shift+b",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "lineHighlightBookmark.navigateToNextBookmark",
+        "key": "f2",
+        "mac": "f2",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "lineHighlightBookmark.navigateToPrevBookmark",
+        "key": "shift+f2",
+        "mac": "shift+f2",
+        "when": "editorTextFocus"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "lineHighlightBookmark configuration",
+      "properties": {
+        "lineHighlightBookmark.alignTopOnNavigation": {
+          "type": "boolean",
+          "default": false,
+          "description": "If set bookmarked line will become the topmost when using next / previous navigation commands"
+        },
+        "lineHighlightBookmark.renderLine": {
+          "type": "boolean",
+          "default": true,
+          "description": "If set render a line on the bookmark"
+        },
+        "lineHighlightBookmark.lineColor": {
+          "type": [
+            "string"
+          ],
+          "default": "#F44336",
+          "description": "Change the line color. (Ex: 'red', '#FFF' #FFFFFFF, 'RGB(255,255,255)','RGB(255, 255, 255. 0.5) )"
+        },
+        "lineHighlightBookmark.lineWidth": {
+          "type": [
+            "string"
+          ],
+          "default": "1px"
+        },
+        "lineHighlightBookmark.lineStyle": {
+          "type": [
+            "string"
+          ],
+          "enum": [
+            "solid",
+            "dashed",
+            "inset",
+            "double",
+            "groove",
+            "outset",
+            "ridge"
+          ],
+          "default": "solid"
+        }
+      }
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "bookmarks.clearAllBookmarks",
+          "when": "view == bookmarks-list",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "bookmarks.deleteBookmark",
+          "when": "view == bookmarks-list && viewItem == bookmark",
+          "group": "inline"
+        },
+        {
+          "command": "bookmarks.addNote",
+          "when": "view == bookmarks-list && viewItem == bookmark",
+          "group": "inline"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.86.0",
+    "@types/glob": "^8.0.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "glob": "^8.0.3",
+    "mocha": "^10.1.0",
+    "typescript": "^4.9.3",
+    "@vscode/test-electron": "^2.2.0"
+  }
+}
