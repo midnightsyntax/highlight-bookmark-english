@@ -52,6 +52,10 @@ A powerful VS Code extension that allows you to add highlighted bookmarks in you
   - 当文件中有书签时，状态栏会显示导航按钮
   - Navigation buttons appear in the status bar when bookmarks exist
 
+- 🧭 **活动栏徽章** / **Activity Bar Badge**
+  - 侧边栏书签视图图标上显示书签总数徽章，随书签增减实时更新
+  - A badge on the activity bar view shows total bookmarks and updates in real time
+
 ## 使用方法 / Usage
 
 ### 快捷键 / Keyboard Shortcuts
@@ -138,6 +142,10 @@ Click the bookmark icon in the activity bar to open the bookmark view panel:
 - **内容预览** / **Content Preview**
   - 悬停在书签上可预览完整的行内容和备注
   - Hover over a bookmark to preview full line content and notes
+
+- **活动栏徽章** / **Activity Bar Badge**
+  - 活动栏中的书签图标会显示当前所有文件书签的总数，并在添加/删除书签时实时更新
+  - The bookmark icon in the activity bar shows the total number of bookmarks across files and updates in real time
 
 ### 多选区域操作 / Multi-selection Operations
 

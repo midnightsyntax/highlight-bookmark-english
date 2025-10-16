@@ -241,10 +241,33 @@ class BookmarkItem extends vscode.TreeItem {
 export function registerBookmarksView(context: vscode.ExtensionContext) {
   const bookmarksViewProvider = new BookmarksViewProvider(context);
 
-  vscode.window.registerTreeDataProvider(
-    "bookmarks-list",
-    bookmarksViewProvider
-  );
+  // 使用 createTreeView 以便设置徽标（badge）
+  const treeView = vscode.window.createTreeView("bookmarks-list", {
+    treeDataProvider: bookmarksViewProvider,
+    showCollapseAll: true,
+  });
+  context.subscriptions.push(treeView);
+
+  // 计算并更新徽标：显示所有文件书签总数
+  const updateBadge = () => {
+    const total = Object.values(bookmarksManager.bookmarks).reduce(
+      (acc, fileMap) => acc + Object.keys(fileMap).length,
+      0
+    );
+    treeView.badge =
+      total > 0
+        ? { value: total, tooltip: `Total bookmarks: ${total}` }
+        : undefined;
+  };
+
+  // 初始更新一次
+  updateBadge();
+
+  // 监听书签变化，刷新树和徽标
+  const badgeSubscription = onBookmarksChanged.event(() => {
+    updateBadge();
+  });
+  context.subscriptions.push(badgeSubscription);
 
   // 确保在清除所有书签后刷新视图
   context.subscriptions.push(

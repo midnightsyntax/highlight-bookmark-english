@@ -4,7 +4,7 @@
   "publisher": "denjay",
   "description": "VS Code extension,Bookmark with highlight lines",
   "icon": "images/logo.png",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.86.0"
   },

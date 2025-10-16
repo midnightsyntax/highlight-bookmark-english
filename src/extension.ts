@@ -19,7 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
   // 创建状态栏按钮
   prevBookmarkStatusBarItem = vscode.window.createStatusBarItem(
     vscode.StatusBarAlignment.Left,
-    100
+    10
   );
   prevBookmarkStatusBarItem.text = "$(arrow-up) Prev Bookmark";
   prevBookmarkStatusBarItem.command =
@@ -30,7 +30,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   nextBookmarkStatusBarItem = vscode.window.createStatusBarItem(
     vscode.StatusBarAlignment.Left,
-    99
+    10
   );
   nextBookmarkStatusBarItem.text = "$(arrow-down) Next Bookmark";
   nextBookmarkStatusBarItem.command =
