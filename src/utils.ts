@@ -114,13 +114,15 @@ export const createDecoration = (
 
     return vscode.window.createTextEditorDecorationType(decorationOptions);
   } else {
-    const decorationOptions: vscode.DecorationRenderOptions = {
-      gutterIconPath: context.asAbsolutePath("images/icon.svg"),
-      dark: {
+    if (renderGutter) {
+      const decorationOptions: vscode.DecorationRenderOptions = {
         gutterIconPath: context.asAbsolutePath("images/icon.svg"),
-      },
-    };
-    return vscode.window.createTextEditorDecorationType(decorationOptions);
+        dark: {
+          gutterIconPath: context.asAbsolutePath("images/icon.svg"),
+        },
+      };
+      return vscode.window.createTextEditorDecorationType(decorationOptions);
+    }
   }
 };
 
