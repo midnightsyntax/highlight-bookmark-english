@@ -24,7 +24,7 @@
     "url": "https://github.com/denjay/highlight-bookmark.git"
   },
   "activationEvents": [
-    "*"
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -43,7 +43,7 @@
       "activitybar": [
         {
           "id": "bookmarks-view",
-          "title": "highlight-bookmark",
+          "title": "Line Bookmarks",
           "icon": "images/icon.svg"
         }
       ]
@@ -52,7 +52,7 @@
       "bookmarks-view": [
         {
           "id": "bookmarks-list",
-          "name": "Bookmark List"
+          "name": "Bookmarks"
         }
       ]
     },
@@ -115,12 +115,17 @@
     ],
     "configuration": {
       "type": "object",
-      "title": "lineHighlightBookmark configuration",
+      "title": "Line Bookmarks",
       "properties": {
         "lineHighlightBookmark.alignTopOnNavigation": {
           "type": "boolean",
           "default": false,
           "description": "If set bookmarked line will become the topmost when using next / previous navigation commands"
+        },
+        "lineHighlightBookmark.renderGutter": {
+          "type": "boolean",
+          "default": true,
+          "description": "If set render an icon in the gutter"
         },
         "lineHighlightBookmark.renderLine": {
           "type": "boolean",

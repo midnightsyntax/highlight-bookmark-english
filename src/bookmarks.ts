@@ -199,16 +199,17 @@ export const bookmarksManager = {
 
     logger.info(`will load bookmarks for lines ${lines}`);
 
-    // 确保当前文件的书签数据存在
+    // Ensure that the bookmark data for the current file exists.
     if (!this.bookmarks[this.filePath]) {
       this.bookmarks[this.filePath] = {};
     }
 
-    // 创建装饰器并保存书签数据
+    // Create a decorator and save bookmark data.
     lines.forEach((line) => {
       const key = getKey(line);
       const decoration = createDecoration(context);
       const range = line2range(line);
+      const gutterEnabled = vscode.workspace.getConfiguration("lineHighlightBookmark").get("renderGutter");
       vscode.window.activeTextEditor?.setDecorations(decoration, [range]);
       this.bookmarks[this.filePath!][key] = { line, decoration };
     });
@@ -270,6 +271,11 @@ export const bookmarksManager = {
 
   toggleBookmarks(context: vscode.ExtensionContext) {
     if (!vscode.window.activeTextEditor) {
+      return;
+    }
+    
+    if (vscode.window.activeTextEditor.document.isUntitled) {
+      vscode.window.showWarningMessage("Bookmarks can only be added to saved files. Please save this file first.")
       return;
     }
 

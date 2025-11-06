@@ -3,13 +3,14 @@ import { bookmarksManager, onBookmarksChanged, getKey } from "./bookmarks";
 import * as path from "path";
 import * as fs from "fs";
 import { fileExists } from "./utils";
+import { BookmarkItem } from "./BookmarkItem";
 
 type BookmarkValue = {
   line: number;
   decoration: vscode.TextEditorDecorationType;
 };
 
-// 获取文件指定行的内容
+// Get the content of a specified line in a file
 function getLineContent(
   filePath: string,
   line: number,
@@ -44,7 +45,7 @@ export class BookmarksViewProvider
   private currentFilePath: string | undefined;
 
   constructor(private context: vscode.ExtensionContext) {
-    // 监听活动编辑器变化
+    // Listen for changes in the activity editor
     vscode.window.onDidChangeActiveTextEditor(
       (editor) => {
         this.currentFilePath = editor?.document.uri.fsPath;
@@ -53,30 +54,30 @@ export class BookmarksViewProvider
       null,
       context.subscriptions
     );
-
-    // 初始化当前文件路径
+    
+    // Initialize the current file path
     this.currentFilePath = vscode.window.activeTextEditor?.document.uri.fsPath;
 
-    // 监听书签变化事件
+    // Listen for bookmark change events
     onBookmarksChanged.event(() => {
       this.refresh();
     });
 
-    // 注册跳转到书签的命令
+    // The command to register and jump to bookmarks
     this.jumpToBookmarkCommand = vscode.commands.registerCommand(
       "bookmarks.jumpToBookmark",
       async (line: number, filePath: string) => {
         try {
           // 检查文件是否存在
           if (!fileExists(filePath)) {
-            vscode.window.showErrorMessage(`文件不存在: ${filePath}`);
+            vscode.window.showErrorMessage(`The file does not exist: ${filePath}`);
             return;
           }
 
           // 检查书签是否还存在
           const bookmark = bookmarksManager.bookmarks[filePath]?.[getKey(line)];
           if (!bookmark) {
-            vscode.window.showErrorMessage("书签不存在");
+            vscode.window.showErrorMessage("Bookmark does not exist");
             return;
           }
 
@@ -98,7 +99,7 @@ export class BookmarksViewProvider
       }
     );
 
-    // 将命令添加到订阅列表中
+    // Add the command to the subscription list
     this.context.subscriptions.push(this.jumpToBookmarkCommand);
   }
 
@@ -113,13 +114,13 @@ export class BookmarksViewProvider
   }
 
   getTreeItem(element: BookmarkItem): vscode.TreeItem {
-    // 如果是文件项且是当前活动文件，添加高亮样式
+    // If it is a file item and the currently active file, add a highlight style.
     if (
       element.contextValue === "file" &&
       element.filePath === this.currentFilePath
     ) {
       element.description = "● current file";
-      // 使用不同的图标或样式来表示当前活动文件
+      // Use different icons or styles to represent the currently active file.
       element.iconPath = new vscode.ThemeIcon(
         "bookmark",
         new vscode.ThemeColor("bookmarks.activeFile")
@@ -147,7 +148,7 @@ export class BookmarksViewProvider
             line
           );
           return new BookmarkItem(
-            `行 ${line + 1}: ${lineContent}${note ? ` (${note})` : ""}`,
+            `${line + 1}: ${lineContent}${note ? ` (${note})` : ""}`,
             vscode.TreeItemCollapsibleState.None,
             {
               command: "bookmarks.jumpToBookmark",
@@ -163,6 +164,8 @@ export class BookmarksViewProvider
       }
       return [];
     }
+
+
 
     const allBookmarks = bookmarksManager.bookmarks;
     const items: BookmarkItem[] = [];
@@ -203,38 +206,6 @@ export class BookmarksViewProvider
     }
 
     return items;
-  }
-}
-
-class BookmarkItem extends vscode.TreeItem {
-  constructor(
-    public readonly label: string,
-    public readonly collapsibleState: vscode.TreeItemCollapsibleState,
-    public readonly command?: vscode.Command,
-    public readonly line?: number,
-    public readonly filePath?: string,
-    public readonly fullContent?: string,
-    public readonly note?: string,
-    public readonly isCurrentFile: boolean = false
-  ) {
-    super(label, collapsibleState);
-    this.tooltip = fullContent
-      ? note
-        ? `${fullContent}\n\n备注: ${note}`
-        : fullContent
-      : filePath
-      ? `${filePath}:${line}`
-      : filePath;
-    this.contextValue = line !== undefined ? "bookmark" : "file";
-
-    // 如果是当前文件，设置特殊图标
-    if (isCurrentFile && this.contextValue === "file") {
-      this.description = "● 当前文件";
-      this.iconPath = new vscode.ThemeIcon(
-        "bookmark",
-        new vscode.ThemeColor("bookmarks.activeFile")
-      );
-    }
   }
 }
 
@@ -302,7 +273,7 @@ export function registerBookmarksView(context: vscode.ExtensionContext) {
     }
   );
 
-  // 注册添加备注的命令
+  // Command to add comments during registration
   let addBookmarkNote = vscode.commands.registerCommand(
     "bookmarks.addNote",
     async (item: BookmarkItem) => {
@@ -312,8 +283,8 @@ export function registerBookmarksView(context: vscode.ExtensionContext) {
           item.line
         );
         const note = await vscode.window.showInputBox({
-          prompt: "请输入书签备注",
-          placeHolder: "输入备注内容",
+          prompt: "Please enter a bookmark note.",
+          placeHolder: "Enter remarks",
           value: currentNote,
         });
 

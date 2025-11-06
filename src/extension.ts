@@ -101,7 +101,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
-  // 将命令添加到订阅列表中
+  // Listen for changes in the activity editor and add commands to the subscription list.
   context.subscriptions.push(
     toggleBookmarks,
     clearAllBookmarks,
@@ -122,7 +122,10 @@ export function activate(context: vscode.ExtensionContext) {
   // The only way for now to keep bookmarks positions in sync with what is shown in VS Code.
   // @see https://github.com/microsoft/vscode/issues/54147
   vscode.workspace.onDidChangeTextDocument((event) => {
-    bookmarksManager.handleTextChanges(context, event.contentChanges);
+    // Only handle changes in files on disk
+    if (!event.document.isUntitled && event.document.uri.scheme === "file") {
+      bookmarksManager.handleTextChanges(context, event.contentChanges);
+    }
   });
 
   // 监听书签变化事件
