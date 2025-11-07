@@ -4,6 +4,9 @@ import { logger } from "./logger";
 import { storeKey } from "./bookmarks";
 
 const LINE_END = 999;
+const DEFAULT_LINECOLOR = vscode.workspace.getConfiguration().inspect<string>('lineBookmarks.lineColor')?.defaultValue
+const DEFAULT_LINEWIDTH = vscode.workspace.getConfiguration().inspect<number>('lineBookmarks.lineWidth')?.defaultValue
+const DEFAULT_LINESTYLE = vscode.workspace.getConfiguration().inspect<string>('lineBookmarks.lineStyle')?.defaultValue
 
 const getConfig = <T>(key: string, defaultValue: T): T =>
   vscode.workspace
@@ -92,15 +95,15 @@ export const createDecoration = (
     .getConfiguration(storeKey)
     .get("renderGutter");
   if (renderLine) {
-    const borderColor: string = vscode.workspace
+    const lineColor = vscode.workspace
+      .getConfiguration('lineBookmarks')
+      .get('lineColor', DEFAULT_LINECOLOR);
+    const lineWidth = vscode.workspace
       .getConfiguration(storeKey)
-      .get("borderColor", "#F44336");
-    const borderWidth = vscode.workspace
+      .get("lineWidth", `${DEFAULT_LINEWIDTH}px`);
+    const lineStyle = vscode.workspace
       .getConfiguration(storeKey)
-      .get("borderWidth", "2px");
-    const borderStyle = vscode.workspace
-      .getConfiguration(storeKey)
-      .get("borderStyle", "solid");
+      .get("lineStyle", DEFAULT_LINESTYLE);
 
     const decorationOptions: vscode.DecorationRenderOptions = {
       gutterIconPath: renderGutter ? context.asAbsolutePath("images/icon.svg") : undefined,
@@ -108,9 +111,9 @@ export const createDecoration = (
         gutterIconPath: renderGutter ? context.asAbsolutePath("images/icon.svg") : undefined
       },
       isWholeLine: true,
-      borderWidth: `0 0 ${borderWidth} 0`,
-      borderStyle: borderStyle,
-      borderColor: borderColor,
+      borderWidth: `0 0 ${lineWidth} 0`,
+      borderStyle: lineStyle,
+      borderColor: lineColor,
     };
 
     return vscode.window.createTextEditorDecorationType(decorationOptions);

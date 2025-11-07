@@ -1,8 +1,8 @@
 {
-  "name": "line-bookmarks",
-  "displayName": "line-bookmarks",
-  "publisher": "denjay",
-  "description": "VS Code extension,Bookmark with highlight lines",
+  "name": "vscode-bookmark-lines",
+  "displayName": "vscode-bookmark-lines",
+  "publisher": "midnightsyntax",
+  "description": "Bookmark lines in your code to navigate between them faster.",
   "icon": "images/logo.png",
   "version": "0.0.3",
   "engines": {
@@ -21,7 +21,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/denjay/line-bookmarks.git"
+    "url": "https://github.com/midnightsyntax/highlight-bookmarks-english.git"
   },
   "activationEvents": [
     "onStartupFinished"
@@ -30,7 +30,7 @@
   "contributes": {
     "colors": [
       {
-        "id": "lineBookmarks.activeFile",
+        "id": "bookmarkLines.activeFile",
         "description": "Color for the current active file in bookmarks view",
         "defaults": {
           "dark": "#F44336",
@@ -42,73 +42,72 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "bookmarks-view",
+          "id": "bookmarksLines-view",
           "title": "Line Bookmarks",
           "icon": "images/icon.svg"
         }
       ]
     },
     "views": {
-      "bookmarks-view": [
+      "bookmarksLines-view": [
         {
           "id": "bookmarks-list",
-          "name": "Bookmarks",
-          "icon": "images/icon.svg"
+          "name": "Line Bookmarks"
         }
       ]
     },
     "commands": [
       {
-        "command": "lineBookmarks.toggleBookmarks",
-        "title": "line-bookmarks: Toogle Bookmarks"
+        "command": "bookmarkLines.toggleBookmarks",
+        "title": "Toggle Code Bookmarks"
       },
       {
-        "command": "lineBookmarks.clearAllBookmarks",
-        "title": "line-bookmarks: Clear All Bookmarks",
+        "command": "bookmarkLines.clearAllBookmarks",
+        "title": "Clear All Code Bookmarks",
         "icon": "$(trash)"
       },
       {
-        "command": "lineBookmarks.clearCurrentFileBookmarks",
-        "title": "line-bookmarks: Clear Current File Bookmarks"
+        "command": "bookmarkLines.clearCurrentFileBookmarks",
+        "title": "Clear Code Bookmarks in current file"
       },
       {
-        "command": "lineBookmarks.navigateToNextBookmark",
-        "title": "line-bookmarks: Move cursor to the next bookmark"
+        "command": "bookmarkLines.navigateToNextBookmark",
+        "title": "Navigate to next Code Bookmark"
       },
       {
-        "command": "lineBookmarks.navigateToPrevBookmark",
-        "title": "line-bookmarks: Move cursor to the previous bookmark"
+        "command": "bookmarkLines.navigateToPrevBookmark",
+        "title": "Navigate to previous Code Bookmark"
       },
       {
-        "command": "lineBookmarks.deleteBookmark",
-        "title": "Delete"
+        "command": "bookmarkLines.deleteBookmark",
+        "title": "Delete Code Bookmark"
       },
       {
-        "command": "lineBookmarks.addNote",
+        "command": "bookmarkLines.addNote",
         "title": "Add note"
       }
     ],
     "keybindings": [
       {
-        "command": "lineBookmarks.toogleBookmarks",
+        "command": "bookmarkLines.toggleBookmarks",
         "key": "alt+b",
         "mac": "option+b",
         "when": "editorTextFocus"
       },
       {
-        "command": "lineBookmarks.clearCurrentFileBookmarks",
+        "command": "bookmarkLines.clearCurrentFileBookmarks",
         "key": "ctrl+shift+b",
         "mac": "cmd+shift+b",
         "when": "editorTextFocus"
       },
       {
-        "command": "lineBookmarks.navigateToNextBookmark",
+        "command": "bookmarkLines.navigateToNextBookmark",
         "key": "f2",
         "mac": "f2",
         "when": "editorTextFocus"
       },
       {
-        "command": "lineBookmarks.navigateToPrevBookmark",
+        "command": "bookmarkLines.navigateToPrevBookmark",
         "key": "shift+f2",
         "mac": "shift+f2",
         "when": "editorTextFocus"
@@ -116,40 +115,34 @@
     ],
     "configuration": {
       "type": "object",
-      "title": "Line Bookmarks",
+      "title": "Bookmark Lines",
       "properties": {
-        "lineBookmarks.alignTopOnNavigation": {
+        "bookmarkLines.alignTopOnNavigation": {
           "type": "boolean",
           "default": false,
           "description": "If set bookmarked line will become the topmost when using next / previous navigation commands"
         },
-        "lineBookmarks.renderGutter": {
+        "bookmarkLines.renderGutter": {
           "type": "boolean",
           "default": true,
-          "description": "If set render an icon in the gutter"
+          "description": "If enabled, displays a gutter icon next to bookmarked lines."
         },
-        "lineBookmarks.renderLine": {
+        "bookmarkLines.renderLine": {
           "type": "boolean",
           "default": true,
-          "description": "If set render a line on the bookmark"
+          "description": "If enabled, displays a line to highlight the bookmarked lines."
         },
-        "lineBookmarks.lineColor": {
-          "type": [
-            "string"
-          ],
+        "bookmarkLines.lineColor": {
+          "type": "string",
           "default": "#F44336",
-          "description": "Change the line color. (Ex: 'red', '#FFF' #FFFFFFF, 'RGB(255,255,255)','RGB(255, 255, 255. 0.5) )"
+          "markdownDescription": "Specifies what color to use for the line bookmarks highlight. Use a valid HTML color code (e.g., `#FF0000`, `red`, `rgb(255,0,0)`)."
         },
-        "lineBookmarks.lineWidth": {
-          "type": [
-            "string"
-          ],
-          "default": "1px"
+        "bookmarkLines.lineWidth": {
+          "type": "number",
+          "default": 1
         },
-        "lineBookmarks.lineStyle": {
-          "type": [
-            "string"
-          ],
+        "bookmarkLines.lineStyle": {
+          "type": "string",
           "enum": [
             "solid",
             "dashed",
@@ -159,26 +152,27 @@
             "outset",
             "ridge"
           ],
-          "default": "solid"
+          "default": "solid",
+          "markdownDescription": "Specifies the style used to highlight line bookmarks in the editor."
         }
       }
     },
     "menus": {
       "view/title": [
         {
-          "command": "lineBookmarks.clearAllBookmarks",
+          "command": "bookmarkLines.clearAllBookmarks",
           "when": "view == bookmarks-list",
           "group": "navigation"
         }
       ],
       "view/item/context": [
         {
-          "command": "lineBookmarks.deleteBookmark",
+          "command": "bookmarkLines.deleteBookmark",
           "when": "view == bookmarks-list && viewItem == bookmark",
           "group": "inline"
         },
         {
-          "command": "lineBookmarks.addNote",
+          "command": "bookmarkLines.addNote",
           "when": "view == bookmarks-list && viewItem == bookmark",
           "group": "inline"
         }

@@ -2,6 +2,8 @@ import * as vscode from "vscode";
 import { bookmarksManager, onBookmarksChanged } from "./bookmarks";
 import { registerBookmarksView } from "./bookmarksView";
 
+const EXTENSION_PACKAGENAME = 'bookmarkLines';
+
 // Save a reference to the context
 let extensionContext: vscode.ExtensionContext;
 
@@ -23,7 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
   );
   prevBookmarkStatusBarItem.text = "$(arrow-up) Prev Bookmark";
   prevBookmarkStatusBarItem.command =
-    "lineBookmarks.navigateToPrevBookmark";
+    `${EXTENSION_PACKAGENAME}.navigateToPrevBookmark`;
   prevBookmarkStatusBarItem.tooltip =
     "Navigate to Previous Bookmark (Shift+F2)";
   context.subscriptions.push(prevBookmarkStatusBarItem);
@@ -34,7 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
   );
   nextBookmarkStatusBarItem.text = "$(arrow-down) Next Bookmark";
   nextBookmarkStatusBarItem.command =
-    "lineBookmarks.navigateToNextBookmark";
+    `${EXTENSION_PACKAGENAME}.navigateToNextBookmark`;
   nextBookmarkStatusBarItem.tooltip = "Navigate to Next Bookmark (F2)";
   context.subscriptions.push(nextBookmarkStatusBarItem);
 
@@ -43,14 +45,14 @@ export function activate(context: vscode.ExtensionContext) {
 
   // 注册所有书签相关的命令
   let toggleBookmarks = vscode.commands.registerCommand(
-    "lineBookmarks.toogleBookmarks",
+    `${EXTENSION_PACKAGENAME}.toggleBookmarks`,
     () => {
       bookmarksManager.toggleBookmarks(context);
     }
   );
 
   let clearAllBookmarks = vscode.commands.registerCommand(
-    "lineBookmarks.clearAllBookmarks",
+    `${EXTENSION_PACKAGENAME}.clearAllBookmarks`,
     async () => {
       // 显示确认对话框
       const answer = await vscode.window.showWarningMessage(
@@ -63,27 +65,27 @@ export function activate(context: vscode.ExtensionContext) {
       if (answer === "Yes") {
         bookmarksManager.clearAllBookmarks(context);
         // 刷新书签视图
-        vscode.commands.executeCommand("lineBookmarks.refreshView");
+        `scode.commands.executeCommand("${EXTENSION_PACKAGENAME}.refreshView"`;
       }
     }
   );
 
   let navigateToNextBookmark = vscode.commands.registerCommand(
-    "lineBookmarks.navigateToNextBookmark",
+    `${EXTENSION_PACKAGENAME}.navigateToNextBookmark`,
     () => {
       bookmarksManager.navigateToNext();
     }
   );
 
   let navigateToPrevBookmark = vscode.commands.registerCommand(
-    "lineBookmarks.navigateToPrevBookmark",
+    `${EXTENSION_PACKAGENAME}.navigateToPrevBookmark`,
     () => {
       bookmarksManager.navigateToPrev();
     }
   );
 
   let clearCurrentFileBookmarks = vscode.commands.registerCommand(
-    "lineBookmarks.clearCurrentFileBookmarks",
+    `${EXTENSION_PACKAGENAME}clearCurrentFileBookmarks`,
     async () => {
       // 显示确认对话框
       const answer = await vscode.window.showWarningMessage(
@@ -96,7 +98,7 @@ export function activate(context: vscode.ExtensionContext) {
       if (answer === "Yes") {
         bookmarksManager.clearCurrentFileBookmarks(context);
         // 刷新书签视图
-        vscode.commands.executeCommand("lineBookmarks.refreshView");
+        `vscode.commands.executeCommand("${EXTENSION_PACKAGENAME}.refreshView"`;
       }
     }
   );

@@ -249,7 +249,7 @@ export function registerBookmarksView(context: vscode.ExtensionContext) {
 
   // 注册删除书签的命令
   let deleteBookmark = vscode.commands.registerCommand(
-    "lineBookmarks.deleteBookmark",
+    "bookmarkLines.deleteBookmark",
     async (item: BookmarkItem) => {
       if (item.line !== undefined && item.filePath) {
         // 保存当前文件路径
@@ -275,7 +275,7 @@ export function registerBookmarksView(context: vscode.ExtensionContext) {
 
   // Command to add comments during registration
   let addBookmarkNote = vscode.commands.registerCommand(
-    "lineBookmarks.addNote",
+    "bookmarkLines.addNote",
     async (item: BookmarkItem) => {
       if (item.line !== undefined && item.filePath) {
         const currentNote = bookmarksManager.getBookmarkNote(
