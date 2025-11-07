@@ -1,12 +1,13 @@
 import * as fs from "fs";
 import * as vscode from "vscode";
 import { logger } from "./logger";
+import { storeKey } from "./bookmarks";
 
 const LINE_END = 999;
 
 const getConfig = <T>(key: string, defaultValue: T): T =>
   vscode.workspace
-    .getConfiguration("lineHighlightBookmark")
+    .getConfiguration(storeKey)
     .get(key, defaultValue);
 
 export const isDebug = () => getConfig<boolean>("debug", false);
@@ -85,20 +86,20 @@ export const createDecoration = (
   context: vscode.ExtensionContext
 ): vscode.TextEditorDecorationType => {
   let renderLine = vscode.workspace
-    .getConfiguration("lineHighlightBookmark")
+    .getConfiguration(storeKey)
     .get("renderLine", true);
   const renderGutter = vscode.workspace
-    .getConfiguration("lineHighlightBookmark")
+    .getConfiguration(storeKey)
     .get("renderGutter");
   if (renderLine) {
     const borderColor: string = vscode.workspace
-      .getConfiguration("lineHighlightBookmark")
+      .getConfiguration(storeKey)
       .get("borderColor", "#F44336");
     const borderWidth = vscode.workspace
-      .getConfiguration("lineHighlightBookmark")
+      .getConfiguration(storeKey)
       .get("borderWidth", "2px");
     const borderStyle = vscode.workspace
-      .getConfiguration("lineHighlightBookmark")
+      .getConfiguration(storeKey)
       .get("borderStyle", "solid");
 
     const decorationOptions: vscode.DecorationRenderOptions = {
@@ -124,6 +125,7 @@ export const createDecoration = (
       return vscode.window.createTextEditorDecorationType(decorationOptions);
     }
   }
+  return vscode.window.createTextEditorDecorationType({});
 };
 
 export const createLinesRange = (start: number, endInclusive: number) => {

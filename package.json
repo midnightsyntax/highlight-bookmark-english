@@ -1,6 +1,6 @@
 {
-  "name": "highlight-bookmark",
-  "displayName": "highlight-bookmark",
+  "name": "line-bookmarks",
+  "displayName": "line-bookmarks",
   "publisher": "denjay",
   "description": "VS Code extension,Bookmark with highlight lines",
   "icon": "images/logo.png",
@@ -21,7 +21,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/denjay/highlight-bookmark.git"
+    "url": "https://github.com/denjay/line-bookmarks.git"
   },
   "activationEvents": [
     "onStartupFinished"
@@ -30,7 +30,7 @@
   "contributes": {
     "colors": [
       {
-        "id": "bookmarks.activeFile",
+        "id": "lineBookmarks.activeFile",
         "description": "Color for the current active file in bookmarks view",
         "defaults": {
           "dark": "#F44336",
@@ -52,62 +52,63 @@
       "bookmarks-view": [
         {
           "id": "bookmarks-list",
-          "name": "Bookmarks"
+          "name": "Bookmarks",
+          "icon": "images/icon.svg"
         }
       ]
     },
     "commands": [
       {
-        "command": "bookmarks.toggleBookmarks",
-        "title": "highlight-bookmark: Toogle Bookmarks"
+        "command": "lineBookmarks.toggleBookmarks",
+        "title": "line-bookmarks: Toogle Bookmarks"
       },
       {
-        "command": "bookmarks.clearAllBookmarks",
-        "title": "highlight-bookmark: Clear All Bookmarks",
+        "command": "lineBookmarks.clearAllBookmarks",
+        "title": "line-bookmarks: Clear All Bookmarks",
         "icon": "$(trash)"
       },
       {
-        "command": "bookmarks.clearCurrentFileBookmarks",
-        "title": "highlight-bookmark: Clear Current File Bookmarks"
+        "command": "lineBookmarks.clearCurrentFileBookmarks",
+        "title": "line-bookmarks: Clear Current File Bookmarks"
       },
       {
-        "command": "bookmarks.navigateToNextBookmark",
-        "title": "highlight-bookmark: Move cursor to the next bookmark"
+        "command": "lineBookmarks.navigateToNextBookmark",
+        "title": "line-bookmarks: Move cursor to the next bookmark"
       },
       {
-        "command": "bookmarks.navigateToPrevBookmark",
-        "title": "highlight-bookmark: Move cursor to the previous bookmark"
+        "command": "lineBookmarks.navigateToPrevBookmark",
+        "title": "line-bookmarks: Move cursor to the previous bookmark"
       },
       {
-        "command": "bookmarks.deleteBookmark",
+        "command": "lineBookmarks.deleteBookmark",
         "title": "Delete"
       },
       {
-        "command": "bookmarks.addNote",
+        "command": "lineBookmarks.addNote",
         "title": "Add note"
       }
     ],
     "keybindings": [
       {
-        "command": "lineHighlightBookmark.toogleBookmarks",
+        "command": "lineBookmarks.toogleBookmarks",
         "key": "alt+b",
         "mac": "option+b",
         "when": "editorTextFocus"
       },
       {
-        "command": "bookmarks.clearCurrentFileBookmarks",
+        "command": "lineBookmarks.clearCurrentFileBookmarks",
         "key": "ctrl+shift+b",
         "mac": "cmd+shift+b",
         "when": "editorTextFocus"
       },
       {
-        "command": "lineHighlightBookmark.navigateToNextBookmark",
+        "command": "lineBookmarks.navigateToNextBookmark",
         "key": "f2",
         "mac": "f2",
         "when": "editorTextFocus"
       },
       {
-        "command": "lineHighlightBookmark.navigateToPrevBookmark",
+        "command": "lineBookmarks.navigateToPrevBookmark",
         "key": "shift+f2",
         "mac": "shift+f2",
         "when": "editorTextFocus"
@@ -117,35 +118,35 @@
       "type": "object",
       "title": "Line Bookmarks",
       "properties": {
-        "lineHighlightBookmark.alignTopOnNavigation": {
+        "lineBookmarks.alignTopOnNavigation": {
           "type": "boolean",
           "default": false,
           "description": "If set bookmarked line will become the topmost when using next / previous navigation commands"
         },
-        "lineHighlightBookmark.renderGutter": {
+        "lineBookmarks.renderGutter": {
           "type": "boolean",
           "default": true,
           "description": "If set render an icon in the gutter"
         },
-        "lineHighlightBookmark.renderLine": {
+        "lineBookmarks.renderLine": {
           "type": "boolean",
           "default": true,
           "description": "If set render a line on the bookmark"
         },
-        "lineHighlightBookmark.lineColor": {
+        "lineBookmarks.lineColor": {
           "type": [
             "string"
           ],
           "default": "#F44336",
           "description": "Change the line color. (Ex: 'red', '#FFF' #FFFFFFF, 'RGB(255,255,255)','RGB(255, 255, 255. 0.5) )"
         },
-        "lineHighlightBookmark.lineWidth": {
+        "lineBookmarks.lineWidth": {
           "type": [
             "string"
           ],
           "default": "1px"
         },
-        "lineHighlightBookmark.lineStyle": {
+        "lineBookmarks.lineStyle": {
           "type": [
             "string"
           ],
@@ -165,19 +166,19 @@
     "menus": {
       "view/title": [
         {
-          "command": "bookmarks.clearAllBookmarks",
+          "command": "lineBookmarks.clearAllBookmarks",
           "when": "view == bookmarks-list",
           "group": "navigation"
         }
       ],
       "view/item/context": [
         {
-          "command": "bookmarks.deleteBookmark",
+          "command": "lineBookmarks.deleteBookmark",
           "when": "view == bookmarks-list && viewItem == bookmark",
           "group": "inline"
         },
         {
-          "command": "bookmarks.addNote",
+          "command": "lineBookmarks.addNote",
           "when": "view == bookmarks-list && viewItem == bookmark",
           "group": "inline"
         }
@@ -193,16 +194,16 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/vscode": "^1.86.0",
     "@types/glob": "^8.0.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
-    "@typescript-eslint/eslint-plugin": "^5.45.0",
-    "@typescript-eslint/parser": "^5.45.0",
-    "eslint": "^8.28.0",
+    "@types/vscode": "^1.86.0",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "@vscode/test-electron": "^2.2.0",
+    "eslint": "^8.57.1",
     "glob": "^8.0.3",
     "mocha": "^10.1.0",
-    "typescript": "^4.9.3",
-    "@vscode/test-electron": "^2.2.0"
+    "typescript": "^4.9.3"
   }
 }

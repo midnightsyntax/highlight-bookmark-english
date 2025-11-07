@@ -26,7 +26,7 @@ export class BookmarkItem extends vscode.TreeItem {
       this.description = "● 当前文件";
       this.iconPath = new vscode.ThemeIcon(
         "bookmark",
-        new vscode.ThemeColor("bookmarks.activeFile")
+        new vscode.ThemeColor("lineBookmarks.activeFile")
       );
     }
   }

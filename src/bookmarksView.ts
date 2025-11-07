@@ -65,7 +65,7 @@ export class BookmarksViewProvider
 
     // The command to register and jump to bookmarks
     this.jumpToBookmarkCommand = vscode.commands.registerCommand(
-      "bookmarks.jumpToBookmark",
+      "lineBookmarks.jumpToBookmark",
       async (line: number, filePath: string) => {
         try {
           // 检查文件是否存在
@@ -123,7 +123,7 @@ export class BookmarksViewProvider
       // Use different icons or styles to represent the currently active file.
       element.iconPath = new vscode.ThemeIcon(
         "bookmark",
-        new vscode.ThemeColor("bookmarks.activeFile")
+        new vscode.ThemeColor("lineBookmarks.activeFile")
       );
     }
     return element;
@@ -151,7 +151,7 @@ export class BookmarksViewProvider
             `${line + 1}: ${lineContent}${note ? ` (${note})` : ""}`,
             vscode.TreeItemCollapsibleState.None,
             {
-              command: "bookmarks.jumpToBookmark",
+              command: "lineBookmarks.jumpToBookmark",
               title: "跳转到书签",
               arguments: [line, element.filePath],
             },
@@ -242,14 +242,14 @@ export function registerBookmarksView(context: vscode.ExtensionContext) {
 
   // 确保在清除所有书签后刷新视图
   context.subscriptions.push(
-    vscode.commands.registerCommand("bookmarks.refreshView", () => {
+    vscode.commands.registerCommand("lineBookmarks.refreshView", () => {
       bookmarksViewProvider.refresh();
     })
   );
 
   // 注册删除书签的命令
   let deleteBookmark = vscode.commands.registerCommand(
-    "bookmarks.deleteBookmark",
+    "lineBookmarks.deleteBookmark",
     async (item: BookmarkItem) => {
       if (item.line !== undefined && item.filePath) {
         // 保存当前文件路径
@@ -275,7 +275,7 @@ export function registerBookmarksView(context: vscode.ExtensionContext) {
 
   // Command to add comments during registration
   let addBookmarkNote = vscode.commands.registerCommand(
-    "bookmarks.addNote",
+    "lineBookmarks.addNote",
     async (item: BookmarkItem) => {
       if (item.line !== undefined && item.filePath) {
         const currentNote = bookmarksManager.getBookmarkNote(

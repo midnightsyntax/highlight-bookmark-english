@@ -13,8 +13,8 @@ import {
 import { handleEdit } from "./handleEdit";
 import { getExtensionContext } from "./extension";
 
-const storeKey = "lineHighlightBookmark";
-const notesStoreKey = "lineHighlightBookmarkNotes";
+export const storeKey = "lineBookmarks";
+export const notesStoreKey = "lineBookmarks.notes";
 
 type BookmarkData = {
   line: number;
@@ -209,7 +209,7 @@ export const bookmarksManager = {
       const key = getKey(line);
       const decoration = createDecoration(context);
       const range = line2range(line);
-      const gutterEnabled = vscode.workspace.getConfiguration("lineHighlightBookmark").get("renderGutter");
+      const gutterEnabled = vscode.workspace.getConfiguration(storeKey).get("renderGutter");
       vscode.window.activeTextEditor?.setDecorations(decoration, [range]);
       this.bookmarks[this.filePath!][key] = { line, decoration };
     });
